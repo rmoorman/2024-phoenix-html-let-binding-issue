@@ -156,8 +156,7 @@ defmodule HelloWeb.CoreComponents do
         phx-connected={hide("#client-error")}
         hidden
       >
-        Attempting to reconnect
-        <.icon name="hero-arrow-path" class="ml-1 h-3 w-3 animate-spin" />
+        Attempting to reconnect <.icon name="hero-arrow-path" class="ml-1 h-3 w-3 animate-spin" />
       </.flash>
 
       <.flash
@@ -189,7 +188,7 @@ defmodule HelloWeb.CoreComponents do
       </.simple_form>
   """
   attr :for, :any, required: true, doc: "the data structure for the form"
-  attr :as, :any, default: nil, doc: "the server side parameter to collect all input under"
+  attr :as, :any, doc: "the server side parameter to collect all input under"
 
   attr :rest, :global,
     include: ~w(autocomplete name rel action enctype method novalidate target multipart),
@@ -199,8 +198,10 @@ defmodule HelloWeb.CoreComponents do
   slot :actions, doc: "the slot for form actions, such as a submit button"
 
   def simple_form(assigns) do
+    assigns = assign(assigns, :as, if(assigns[:as], do: %{as: assigns[:as]}, else: %{}))
+
     ~H"""
-    <.form :let={f} for={@for} as={@as} {@rest}>
+    <.form :let={f} for={@for} {@as} {@rest}>
       <div class="mt-10 space-y-8 bg-white">
         <%= render_slot(@inner_block, f) %>
         <div :for={action <- @actions} class="mt-2 flex items-center justify-between gap-6">

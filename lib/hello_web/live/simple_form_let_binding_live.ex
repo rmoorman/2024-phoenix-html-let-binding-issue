@@ -29,6 +29,27 @@ defmodule HelloWeb.SimpleFormLetBindingLive do
   def render(assigns) do
     ~H"""
     <.simple_form :let={f} for={@form}>
+      <%= inspect(f.name) %>
+      <.input field={f[:bar]} label="Bar" />
+    </.simple_form>
+
+    <.form :let={f} for={@form}>
+      <table>
+        <tr>
+          <th><code>@form.name</code></th>
+          <td><code><%= inspect(@form.name) %></code></td>
+        </tr>
+        <tr>
+          <th><code>f.name</code></th>
+          <td><code><%= inspect(f.name) %></code></td>
+        </tr>
+      </table>
+
+      <.input field={@form[:foo]} label="Foo" />
+      <.input field={f[:bar]} label="Bar" />
+    </.form>
+
+    <.simple_form :let={f} for={@form}>
       <table>
         <tr>
           <th><code>@form.name</code></th>
